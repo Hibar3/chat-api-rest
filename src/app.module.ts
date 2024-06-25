@@ -14,7 +14,7 @@ import { JwtModule } from '@nestjs/jwt';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot('mongodb://127.0.0.1:27017', {
+    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017', {
       dbName: 'chat',
       connectionFactory: (connection) => {
         connection.plugin(require('mongoose-autopopulate'));
