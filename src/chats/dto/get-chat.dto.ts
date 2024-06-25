@@ -11,7 +11,7 @@ export class GetChatDto {
         required: false,
         default: 10,
     })
-    readonly limit: number = 10;
+    readonly limit: number = 20;
 
     constructor(data) {
         Object.assign(this, data);
