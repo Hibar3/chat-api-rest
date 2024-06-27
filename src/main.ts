@@ -15,7 +15,7 @@ async function bootstrap() {
   // DTO validation pipe configuration
   // app.useGlobalPipes(new ValidateInputPipe());
   app.useWebSocketAdapter(new SocketIoAdapter(app));
-  await app.listen(process.env.PORT || 4000);
+  await app.listen(process.env.PORT || 8080);
   Logger.log(`Server listening in port ${process.env.PORT}`);
 }
 
