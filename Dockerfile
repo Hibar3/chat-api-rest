@@ -21,4 +21,4 @@ RUN npm run build
 CMD [ "node", "dist/main.js" ]
 
 # Inform Docker that the container listens on the specified port.
-EXPOSE 4000
+EXPOSE 8080
