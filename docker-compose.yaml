@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  chat-rest-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chat-rest-api
+    ports:
+      - "4000:4000"
+    environment:
+       NODE_ENV: development
+       MONGO_URI: 'mongodb+srv://admin:admin@cluster0.umrpq.mongodb.net/'
+       PORT: 4000
+       JWT_SECRET: 'topsecretkey12354321'
+       JWT_EXPIRATION: '365d'
+    volumes:
+      - ./src:/app/src
+      - ./test:/app/test
+    command: npm run start:dev
+
+  # If you're using a database, you can add it here. For example, PostgreSQL:
+  # db:
+  #   image: postgres:13
+  #   environment:
+  #     POSTGRES_USER: youruser
+  #     POSTGRES_PASSWORD: yourpassword
+  #     POSTGRES_DB: yourdbname
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+
+# If you added a database service, uncomment the following:
+# volumes:
+#   postgres_data:
