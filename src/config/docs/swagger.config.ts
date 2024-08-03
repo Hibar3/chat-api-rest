@@ -4,8 +4,8 @@ export class SwaggerConfig {
 
     static config(app) {
         const config = new DocumentBuilder()
-            .setTitle('NestJS Chat App API')
-            .setDescription('NestJS Chat App API')
+            .setTitle('Chat App API')
+            .setDescription('App API')
             .setVersion('1.0')
             .addBearerAuth({
                 type: 'http',

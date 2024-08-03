@@ -8,13 +8,14 @@ import { AuthModule } from './auth/auth.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { ChatsModule } from './chats/chats.module';
 import { JwtModule } from '@nestjs/jwt';
+import { HealthController } from './healthcheck/health.controller';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017', {
+    MongooseModule.forRoot( 'mongodb://127.0.0.1:27017', {
       dbName: 'chat',
       connectionFactory: (connection) => {
         connection.plugin(require('mongoose-autopopulate'));
@@ -32,5 +33,6 @@ import { JwtModule } from '@nestjs/jwt';
     RoomsModule,
     ChatsModule,
   ],
+  controllers: [HealthController],
 })
 export class AppModule {}
