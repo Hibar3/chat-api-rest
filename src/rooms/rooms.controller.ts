@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Query, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { RoomsService } from './rooms.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { ApiBearerAuth, ApiParam } from '@nestjs/swagger';
@@ -8,24 +17,40 @@ import { ChatsService } from 'src/chats/chats.service';
 
 @Controller('rooms')
 export class RoomsController {
-
   constructor(
-    private readonly roomsService: RoomsService,
+    private readonly repo: RoomsService,
     private readonly chatsService: ChatsService,
-  ) { }
+  ) {}
 
   @Post()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   create(@Request() req, @Body() createRoomDto: CreateRoomDto) {
-    return this.roomsService.create(req.user._id.toString(), createRoomDto);
+    return this.repo.create(req.user._id.toString(), createRoomDto);
   }
 
   @Get()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  getByRequest(@Request() req) {
-    return this.roomsService.getByRequest(req.user._id.toString());
+  findAll(@Request() req) {
+    return this.repo.findAll();
+  }
+
+  /** get user's active rooms only */
+  @Get('/me')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  getMyRooms(@Request() req) {
+    return this.repo.getMyRooms(req?.user._id.toString()); // only get rooms current user belongs to
+  }
+
+  /** get user's current rooms with target recipient only */
+  @Get(':id/current')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiParam({ name: 'id', required: true })
+  getCurrentRoom(@Request() req, @Param('id') recipientId) {
+    return this.repo.getCurrentRoom(req?.user._id.toString(), recipientId); // only get rooms current user belongs to
   }
 
   @Get(':id/chats')

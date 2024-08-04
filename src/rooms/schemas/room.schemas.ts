@@ -38,7 +38,9 @@ export class RoomDocument {
         this.name = props.name;
         this.type = props.type;
 
+        // TODO: set recipient name as room name
         if (this.type == RoomType.PERSONAL) {
+            // maps username as room name
             this.name = this.members.find((member: any) => member._id.toString() !== this._id.toString()).name;
         }
     }
