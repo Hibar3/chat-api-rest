@@ -7,10 +7,7 @@ import { GetChatDto } from './dto/get-chat.dto';
 
 @Injectable()
 export class ChatsService {
-
-  constructor(
-    @InjectModel(Chat.name) private chatModel: Model<ChatDocument>,
-  ) { }
+  constructor(@InjectModel(Chat.name) private chatModel: Model<ChatDocument>) {}
 
   async create(senderId: string, createChatDto: CreateChatDto) {
     const createdChat = new this.chatModel({
@@ -29,6 +26,9 @@ export class ChatsService {
       query['_id'] = { $lt: getChatDto.last_id };
     }
 
-    return this.chatModel.find(query).sort({ createdAt: -1 }).limit(getChatDto.limit);
+    return this.chatModel
+      .find(query)
+      .sort({ createdAt: -1 })
+      .limit(getChatDto.limit);
   }
 }

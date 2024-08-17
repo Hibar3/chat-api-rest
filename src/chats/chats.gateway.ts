@@ -47,32 +47,29 @@ export class ChatsGateway {
   ) {
     client.join(room);
     client.emit(SocketEvents.JOINROOM, room);
-    console.log(`Client ${client.id} joined room ${room}`);
+    Logger.log(`Client ${client.id} joined room ${room}`);
   }
 
+  //TODO: check for existing chat room
   @SubscribeMessage(SocketEvents.MESSAGE)
   async create(
     @ConnectedSocket() client,
     @MessageBody() createChatDto: CreateChatDto,
   ) {
-    console.log(
+    Logger.log(
       `Received message from ${client?.id} to ${createChatDto?.room_id}`,
     );
 
     // to store to DB
     const senderId = client?.handshake?.user?._id.toString();
-    console.log(`SenderId  from ${senderId}`);
+
     const chat = await this.chatsService.create(senderId, createChatDto);
-    this.server
-    .to(createChatDto?.room_id)
-    .emit(SocketEvents.REPLY, chat);
+    this.server.to(createChatDto?.room_id).emit(SocketEvents.REPLY, chat);
 
     // sent message to room without storing to DB
     // this.server
     //   .to(createChatDto?.room_id)
     //   .emit(SocketEvents.REPLY, { sender: client?.id, message: createChatDto });
-
-    console.log('Receved msg: ', createChatDto);
   }
 
   afterInit(client: Socket) {

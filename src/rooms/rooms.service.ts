@@ -9,7 +9,7 @@ export class RoomsService {
   constructor(@InjectModel(Room.name) private roomModel: Model<Room>) {}
 
   async create(userId: string, createRoomDto: CreateRoomDto) {
-    createRoomDto.members.push(userId);
+    // createRoomDto.members.push(userId); // for auto push new members to group chat only
     const createdRoom = new this.roomModel(createRoomDto);
     return await createdRoom.save();
   }
