@@ -9,6 +9,10 @@ export type UserDocument = HydratedDocument<User>;
     versionKey: false,
 })
 export class User {
+    @Prop({
+        required: true
+    })
+    _id: string;
 
     @Prop({
         required: true
