@@ -15,13 +15,16 @@ import { HealthController } from './healthcheck/health.controller';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot( 'mongodb://127.0.0.1:27017', {
-      dbName: 'chat',
-      connectionFactory: (connection) => {
-        connection.plugin(require('mongoose-autopopulate'));
-        return connection;
+    MongooseModule.forRoot(
+      process.env.MONGO_URI || 'mongodb://127.0.0.1:27017',
+      {
+        dbName: 'chat',
+        connectionFactory: (connection) => {
+          connection.plugin(require('mongoose-autopopulate'));
+          return connection;
+        },
       },
-    }),
+    ),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '365d' || process.env.JWT_EXPIRATION }, // set default expirtation from env
