@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from 'src/config/guard/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { User } from './schemas/user.schemas';
+import { FilterQuery } from 'mongoose';
 
 @Controller('users')
 export class UsersController {
@@ -20,7 +21,7 @@ export class UsersController {
   @Get('/')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  get(@Param() user: User) {
+  get(@Param() user: FilterQuery<User>) {
     return this.usersService.find(user);
   }
 }

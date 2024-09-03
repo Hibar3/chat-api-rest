@@ -65,7 +65,7 @@ export class UsersService {
     return user;
   }
 
-  async find(filter: FilterQuery<User>) {
+  async find(filter?: FilterQuery<User>) {
     try {
       return await this.userModel.find(filter).exec();
     } catch (error) {
