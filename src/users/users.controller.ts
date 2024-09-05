@@ -14,7 +14,7 @@ export class UsersController {
   @Patch('profile')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  update(@Request() req: { user: User}, @Body() updateUserDto: UpdateUserDto) {
+  update(@Request() req, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(req.user._id.toString(), updateUserDto);
   }
 
